@@ -238,10 +238,10 @@
             countryDonutChart = new Chart(countryCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Colombia', 'México', 'España', 'Estados Unidos', 'Otros'],
+                    labels: ['Colombia', 'México', 'Argentina', 'Brasil', 'Chile', 'España', 'EEUU/CAN', 'Otros'],
                     datasets: [{
                         data: countryData,
-                        backgroundColor: ['#ffb68a', '#e6b4ff', '#833eac', '#322247', '#4d4351'],
+                        backgroundColor: ['#ffb68a', '#e6b4ff', '#833eac', '#f7d8ff', '#e9b3ff', '#601789', '#322247', '#4d4351'],
                         borderWidth: 0,
                         hoverOffset: 10
                     }]
@@ -249,7 +249,7 @@
                 options: {
                     cutout: '70%',
                     plugins: {
-                        legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', padding: 20, font: { size: 10 } } }
+                        legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', padding: 10, font: { size: 9 } } }
                     }
                 }
             });
@@ -312,13 +312,13 @@
         function guessGender(name) {
             if (!name) return 'N/D';
             let first = String(name).trim().split(' ')[0].toLowerCase();
-            let maleA = ['luca', 'lucas', 'matias', 'nicolas', 'tomas', 'andrea', 'josua', 'bautista']; 
+            let maleA = ['luca', 'lucas', 'matias', 'nicolas', 'tomas', 'josua', 'bautista']; 
             let femaleO = ['rocio', 'consuelo', 'amparo', 'socorro', 'rosario'];
             
-            if (maleA.some(m => first.includes(m))) return 'Hombre';
-            if (femaleO.some(f => first.includes(f))) return 'Mujer';
-            if (first.endsWith('a') || first.endsWith('e')) return 'Mujer';
-            if (first.endsWith('o') || first.match(/[bcdfghjklmnpqrstvwxyz]$/)) return 'Hombre';
+            if (maleA.some(m => first === m)) return 'Hombre';
+            if (femaleO.some(f => first === f)) return 'Mujer';
+            if (first.endsWith('a') || first.endsWith('e') || first.endsWith('i') || first.endsWith('y')) return 'Mujer';
+            if (first.endsWith('o') || first.endsWith('u') || first.match(/[bcdfghjklmnñpqrstvwxyz]$/)) return 'Hombre';
             return 'N/D';
         }
 
@@ -328,6 +328,9 @@
             let p = String(phone).replace(/\D/g, '');
             if (p.startsWith('57')) return 'Colombia';
             if (p.startsWith('52')) return 'México';
+            if (p.startsWith('54')) return 'Argentina';
+            if (p.startsWith('55')) return 'Brasil';
+            if (p.startsWith('56')) return 'Chile';
             if (p.startsWith('34')) return 'España';
             if (p.startsWith('1')) return 'Estados Unidos';
             return 'Otros';
@@ -350,7 +353,7 @@
 
                 // Repositorios de datos
                 let roleCounts = { 'C-Level': 0, 'Dirección-Gerencia': 0, 'Coordinación-Senior': 0, 'Profesional': 0, 'Otro': 0 };
-                let countryCounts = { 'Colombia': 0, 'México': 0, 'España': 0, 'Estados Unidos': 0, 'Otros': 0 };
+                let countryCounts = { 'Colombia': 0, 'México': 0, 'Argentina': 0, 'Brasil': 0, 'Chile': 0, 'España': 0, 'Estados Unidos': 0, 'Otros': 0 };
                 let genderCounts = { 'Mujer': 0, 'Hombre': 0, 'N/D': 0 };
                 let orgCounts = {};
                 let uniqueOrgs = new Set();
@@ -413,7 +416,7 @@
                 if(orgData.length === 0) { orgData = [0]; orgLabels = ['Sin datos registrados']; }
 
                 let mappedRolesData = [roleCounts['C-Level'], roleCounts['Dirección-Gerencia'], roleCounts['Coordinación-Senior'], roleCounts['Profesional'], roleCounts['Otro']];
-                let mappedCountryData = [countryCounts['Colombia'], countryCounts['México'], countryCounts['España'], countryCounts['Estados Unidos'], countryCounts['Otros']];
+                let mappedCountryData = [countryCounts['Colombia'], countryCounts['México'], countryCounts['Argentina'], countryCounts['Brasil'], countryCounts['Chile'], countryCounts['España'], countryCounts['Estados Unidos'], countryCounts['Otros']];
                 let mappedGenderData = [genderCounts['Mujer'], genderCounts['Hombre'], genderCounts['N/D']];
 
                 // Actualizar números de KPIs superioes
