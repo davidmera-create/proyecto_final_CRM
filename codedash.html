@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard CRM Impacto Corporativo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#4d4351",
+                    "tertiary": "#ffb68a",
+                    "surface-container-high": "#322247",
+                    "on-tertiary-container": "#e89764",
+                    "on-secondary": "#510073",
+                    "surface-container-lowest": "#150529",
+                    "surface-dim": "#1b0b2f",
+                    "on-tertiary-fixed": "#321300",
+                    "outline": "#998d9c",
+                    "on-primary-fixed-variant": "#692292",
+                    "surface-container-highest": "#3d2d52",
+                    "background": "#1b0b2f",
+                    "surface-bright": "#423257",
+                    "inverse-surface": "#eedcff",
+                    "secondary-fixed-dim": "#e9b3ff",
+                    "on-secondary-fixed-variant": "#6b228e",
+                    "primary": "#e6b4ff",
+                    "secondary-fixed": "#f7d8ff",
+                    "on-primary": "#4f0077",
+                    "inverse-primary": "#833eac",
+                    "inverse-on-surface": "#39294e",
+                    "on-secondary-container": "#e29fff",
+                    "error": "#ffb4ab",
+                    "surface-container": "#27183c",
+                    "on-error": "#690005",
+                    "primary-fixed-dim": "#e6b4ff",
+                    "on-tertiary-fixed-variant": "#71370a",
+                    "tertiary-fixed-dim": "#ffb68a",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed": "#310048",
+                    "primary-container": "#601789",
+                    "surface-variant": "#3d2d52",
+                    "tertiary-container": "#672f03",
+                    "surface": "#1b0b2f",
+                    "surface-container-low": "#231437",
+                    "secondary": "#e9b3ff",
+                    "tertiary-fixed": "#ffdbc8",
+                    "surface-tint": "#e6b4ff",
+                    "on-surface": "#eedcff",
+                    "on-primary-fixed": "#30004a",
+                    "on-tertiary": "#522300",
+                    "primary-fixed": "#f5d9ff",
+                    "on-surface-variant": "#d0c2d2",
+                    "error-container": "#93000a",
+                    "on-background": "#eedcff",
+                    "secondary-container": "#6e2591"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #1b0b2f;
+            font-family: 'Inter', sans-serif;
+            color: #eedcff;
+        }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .glass-card {
+            background: rgba(39, 24, 60, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(230, 180, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-[#1b0b2f]/60 backdrop-blur-3xl text-[#e6b4ff] font-manrope tracking-tight docked full-width top-0 z-50 shadow-[0_20px_40px_rgba(21,5,41,0.4)] flex justify-between items-center w-full px-8 py-4 fixed">
+<div class="flex items-center gap-6">
+<img class="h-10 w-auto object-contain" alt="Latimpacto Logo" src="Logo Latimpacto blanco sin fondo.png"/>
+<div class="h-6 w-px bg-white/20 mx-2"></div>
+<span class="text-white/90 font-semibold">Dashboard CRM Impacto Corporativo</span>
+<div class="hidden lg:flex px-3 py-1 ml-4 bg-green-500/20 text-green-400 border border-green-500/40 rounded-full text-xs font-bold items-center gap-1 animate-pulse">
+    <span class="h-2 w-2 bg-green-500 rounded-full"></span> Conexión Live (G-Sheets)
+</div>
+</div>
+</header>
+<div class="flex pt-20">
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-8 bg-[#1b0b2f]">
+
+<!-- KPI Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-2">
+<span class="text-white/40 text-sm font-medium">Contactos Totales</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-bold text-white">-</span>
+<span class="text-primary text-xs">Live</span>
+</div>
+</div>
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-2">
+<span class="text-white/40 text-sm font-medium">Orgs Únicas</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-bold text-white">-</span>
+</div>
+</div>
+<div class="glass-card p-6 rounded-2xl flex flex-col gap-2">
+<span class="text-white/40 text-sm font-medium">Promedio Participantes x Org</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-bold text-white">-</span>
+</div>
+</div>
+</div>
+<!-- Charts Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-6 mb-8">
+<!-- Bar Chart -->
+<div class="lg:col-span-6 glass-card p-8 rounded-2xl">
+<h3 class="font-manrope text-xl font-bold mb-6 text-white">Top Organizaciones Interesadas</h3>
+<div class="h-64 flex justify-center w-full">
+<canvas id="orgTypeChart"></canvas>
+</div>
+</div>
+<!-- Country Donut -->
+<div class="lg:col-span-4 glass-card p-8 rounded-2xl">
+<h3 class="font-manrope text-xl font-bold mb-6 text-white">Distribución Geográfica (País)</h3>
+<div class="h-64 flex justify-center w-full">
+<canvas id="countryDonutChart"></canvas>
+</div>
+</div>
+</div>
+<!-- Secondary Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+<!-- Role Donut -->
+<div class="glass-card p-8 rounded-2xl flex flex-col justify-center">
+<h3 class="font-manrope text-lg font-bold mb-6 text-white text-center">Distribución de Cargo / Rol</h3>
+<div class="h-64 flex justify-center w-full">
+<canvas id="roleChart"></canvas>
+</div>
+</div>
+<!-- Gender Donut -->
+<div class="glass-card p-8 rounded-2xl flex flex-col justify-center">
+<h3 class="font-manrope text-lg font-bold mb-6 text-white text-center">Distribución de Género Estimada</h3>
+<div class="h-64 flex justify-center w-full">
+<canvas id="genderChart"></canvas>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="glass-card rounded-2xl overflow-hidden mb-12">
+<div class="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<h3 class="font-manrope text-xl font-bold text-white">Directorio de Impacto (Sincronización)</h3>
+<div class="flex flex-wrap gap-2 items-center">
+<button id="refreshDataBtn" class="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary font-bold rounded-lg text-sm transition-colors border border-primary/30 cursor-pointer flex items-center gap-2">
+    <span class="material-symbols-outlined text-sm">cloud_sync</span> Sincronizar Ahora
+</button>
+<a href="https://docs.google.com/spreadsheets/d/TU_ID_AQUI" target="_blank" class="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-sm transition-colors border border-white/10 text-white/70">Ir a la Base (Sheets)</a>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-white/5 text-white/40 text-xs uppercase tracking-wider">
+<th class="px-6 py-4 font-semibold">Participante</th>
+<th class="px-6 py-4 font-semibold">Organización / Empresa</th>
+<th class="px-6 py-4 font-semibold">País (Ext)</th>
+<th class="px-6 py-4 font-semibold">Rol (CRM)</th>
+<th class="px-6 py-4 font-semibold">Correo Electrónico</th>
+<th class="px-6 py-4 font-semibold">HubSpot Data</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+    <!-- Pinta filas dinámicamente -->
+
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Chart instances
+        // Chart instances
+        let orgTypeChart, countryDonutChart, roleChart, genderChart;
+
+        function initCharts(
+            orgData = [0], orgLabels = ['Aún sin datos', '', '', '', ''], 
+            countryData = [0,0,0,0,0], roleData = [0,0,0,0,0], genderData = [0,0,0]
+        ) {
+            // Organization Type Horizontal Bar Chart
+            const orgTypeCtx = document.getElementById('orgTypeChart').getContext('2d');
+            if (orgTypeChart) orgTypeChart.destroy();
+            orgTypeChart = new Chart(orgTypeCtx, {
+                type: 'bar',
+                data: {
+                    labels: orgLabels,
+                    datasets: [{
+                        data: orgData,
+                        backgroundColor: ['#e6b4ff', '#833eac', '#601789', '#f7d8ff', '#322247'],
+                        borderRadius: 10,
+                        barThickness: 24,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } },
+                        y: { grid: { display: false }, ticks: { color: 'white' } }
+                    }
+                }
+            });
+
+            // Distribution by Country Donut
+            const countryCtx = document.getElementById('countryDonutChart').getContext('2d');
+            if (countryDonutChart) countryDonutChart.destroy();
+            countryDonutChart = new Chart(countryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Colombia', 'México', 'España', 'Estados Unidos', 'Otros'],
+                    datasets: [{
+                        data: countryData,
+                        backgroundColor: ['#ffb68a', '#e6b4ff', '#833eac', '#322247', '#4d4351'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: 'rgba(255,255,255,0.7)', padding: 20, font: { size: 10 } } }
+                    }
+                }
+            });
+
+            // Role Distribution Chart (Replaced Gender)
+            const roleCtx = document.getElementById('roleChart').getContext('2d');
+            if (roleChart) roleChart.destroy();
+            roleChart = new Chart(roleCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['C-Level', 'Dirección-Gerencia', 'Coordinación-Senior', 'Profesional', 'Otro'],
+                    datasets: [{
+                        data: roleData,
+                        backgroundColor: ['#e6b4ff', '#ffb68a', '#833eac', '#3d2d52', '#4d4351'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '80%',
+                    plugins: { legend: { position: 'right', labels: { color: 'rgba(255,255,255,0.7)', font: { size: 10 } } } }
+                }
+            });
+
+            // Gender Distribution Chart
+            const genderCtx = document.getElementById('genderChart').getContext('2d');
+            if (genderChart) genderChart.destroy();
+            genderChart = new Chart(genderCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mujer', 'Hombre', 'N/D'],
+                    datasets: [{
+                        data: genderData,
+                        backgroundColor: ['#e6b4ff', '#ffb68a', '#3d2d52'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '80%',
+                    plugins: { legend: { position: 'right', labels: { color: 'rgba(255,255,255,0.7)', font: { size: 11 } } } }
+                }
+            });
+        }
+
+        // Initialize with hardcoded data directly before fetching
+        initCharts([0], ['Esperando datos...'], [0,0,0,0,0], [0,0,0,0,0], [0,0,0]);
+
+        // -----------------------------------------------------
+        // PASO FINAL PARA TI: CONFIGURACIÓN GOOGLE SHEETS
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRWQ51kKB1GXxDVttVoHmdBPTI1rYcHVxdo4TtgbrzEHur6PjSunvFSpJeXYKQp6wQYNyv7pYXdNEq8/pub?output=csv"; 
+        
+        // Diccionario mágico de CRM a Roles Humanos
+        const ROLE_MAPPING = {
+            '7h4wn4Albmhk5AKA-RPJ2': 'C-Level',
+            'sNn2ruC74D3ZXSMgreuha': 'Dirección-Gerencia',
+            'c42iC2uH2gwKugqBJG6HG': 'Coordinación-Senior',
+            'RrGXupmSvAB9AA4yEF7Mu': 'Profesional'
+        };
+
+        // Función heurística de Género (Nombre)
+        function guessGender(name) {
+            if (!name) return 'N/D';
+            let first = String(name).trim().split(' ')[0].toLowerCase();
+            let maleA = ['luca', 'lucas', 'matias', 'nicolas', 'tomas', 'andrea', 'josua', 'bautista']; 
+            let femaleO = ['rocio', 'consuelo', 'amparo', 'socorro', 'rosario'];
+            
+            if (maleA.some(m => first.includes(m))) return 'Hombre';
+            if (femaleO.some(f => first.includes(f))) return 'Mujer';
+            if (first.endsWith('a') || first.endsWith('e')) return 'Mujer';
+            if (first.endsWith('o') || first.match(/[bcdfghjklmnpqrstvwxyz]$/)) return 'Hombre';
+            return 'N/D';
+        }
+
+        // Función heurística País (Teléfono)
+        function guessCountry(phone) {
+            if (!phone) return 'Otros';
+            let p = String(phone).replace(/\D/g, '');
+            if (p.startsWith('57')) return 'Colombia';
+            if (p.startsWith('52')) return 'México';
+            if (p.startsWith('34')) return 'España';
+            if (p.startsWith('1')) return 'Estados Unidos';
+            return 'Otros';
+        }
+
+        async function fetchGoogleSheetData() {
+            if(GOOGLE_SHEET_CSV_URL === "https://tu-link-csv-aqui") { return; }
+
+            try {
+                const btn = document.getElementById('refreshDataBtn');
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span> Cargando...';
+                
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                const csvData = await response.text();
+                const parsed = Papa.parse(csvData, { header: true, skipEmptyLines: true });
+                const jsonData = parsed.data;
+
+                let totalRows = jsonData.length;
+                if(totalRows < 1) { throw new Error("No hay data"); }
+
+                // Repositorios de datos
+                let roleCounts = { 'C-Level': 0, 'Dirección-Gerencia': 0, 'Coordinación-Senior': 0, 'Profesional': 0, 'Otro': 0 };
+                let countryCounts = { 'Colombia': 0, 'México': 0, 'España': 0, 'Estados Unidos': 0, 'Otros': 0 };
+                let genderCounts = { 'Mujer': 0, 'Hombre': 0, 'N/D': 0 };
+                let orgCounts = {};
+                let uniqueOrgs = new Set();
+                let tableHtml = "";
+
+                jsonData.forEach((row, idx) => {
+                    let rowVals = Object.values(row);
+                    let nombreStr = rowVals[0] || "";
+                    let orgStr = rowVals[4] || "";
+                    let phoneStr = rowVals[3] || "";
+                    
+                    // --- Mapeo Roles ---
+                    let foundRole = null;
+                    rowVals.forEach(val => {
+                        let text = String(val).trim();
+                        if(ROLE_MAPPING[text]) foundRole = ROLE_MAPPING[text];
+                    });
+                    if(foundRole) roleCounts[foundRole]++; else roleCounts['Otro']++;
+
+                    // --- Organizaciones ---
+                    if (orgStr) {
+                        let cleanOrg = orgStr.trim();
+                        uniqueOrgs.add(cleanOrg);
+                        orgCounts[cleanOrg] = (orgCounts[cleanOrg] || 0) + 1;
+                    }
+
+                    // --- Extracciones ---
+                    let parsedGender = guessGender(nombreStr);
+                    genderCounts[parsedGender]++;
+                    
+                    let parsedCountry = guessCountry(phoneStr);
+                    if(countryCounts[parsedCountry] !== undefined) countryCounts[parsedCountry]++;
+                    else countryCounts['Otros']++;
+
+                    // --- Render Fila Tabla ---
+                    if(idx < 50) {
+                        tableHtml += `
+                        <tr class="hover:bg-white/5 transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center font-bold text-xs text-primary shadow-sm border border-primary/30 uppercase">
+                                        ${nombreStr.substring(0,2)}
+                                    </div>
+                                    <span class="text-sm font-medium text-white">${nombreStr} ${rowVals[1] || ''}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-white/80">${orgStr || 'N/D'}</td>
+                            <td class="px-6 py-4 text-sm text-tertiary font-medium">${parsedCountry}</td>
+                            <td class="px-6 py-4 text-sm text-white/80">${foundRole || 'N/D'}</td>
+                            <td class="px-6 py-4 text-sm text-white/40">${rowVals[2] || ''}</td>
+                            <td class="px-6 py-4"><span class="material-symbols-outlined text-sm text-white/20">hub</span></td>
+                        </tr>`;
+                    }
+                });
+
+                // Top Organizaciones Logica
+                let sortedOrgs = Object.keys(orgCounts).map(k => ({name: k, count: orgCounts[k]})).sort((a,b) => b.count - a.count).slice(0, 5);
+                let orgData = sortedOrgs.map(o => o.count);
+                let orgLabels = sortedOrgs.map(o => o.name);
+                if(orgData.length === 0) { orgData = [0]; orgLabels = ['Sin datos registrados']; }
+
+                let mappedRolesData = [roleCounts['C-Level'], roleCounts['Dirección-Gerencia'], roleCounts['Coordinación-Senior'], roleCounts['Profesional'], roleCounts['Otro']];
+                let mappedCountryData = [countryCounts['Colombia'], countryCounts['México'], countryCounts['España'], countryCounts['Estados Unidos'], countryCounts['Otros']];
+                let mappedGenderData = [genderCounts['Mujer'], genderCounts['Hombre'], genderCounts['N/D']];
+
+                // Actualizar números de KPIs superioes
+                document.querySelector('.text-4xl.font-bold.text-white').innerText = totalRows.toString();
+                document.querySelectorAll('.text-4xl.font-bold.text-white')[1].innerText = uniqueOrgs.size.toString();
+                document.querySelectorAll('.text-4xl.font-bold.text-white')[2].innerText = uniqueOrgs.size > 0 ? (totalRows / uniqueOrgs.size).toFixed(1) : "0";
+                
+                // Pintar tabla y gráficos
+                document.querySelector('tbody').innerHTML = tableHtml;
+                initCharts(orgData, orgLabels, mappedCountryData, mappedRolesData, mappedGenderData);
+
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_done</span> ¡Actualizado!';
+                setTimeout(() => {
+                    btn.innerHTML = '<span class="material-symbols-outlined text-sm">cloud_sync</span> Sincronizar Ahora';
+                }, 3000);
+
+            } catch (error) {
+                console.error("Error Sheet Parse", error);
+                alert("No se pudo extraer la base. Asegúrate de haber publicado en formato CSV.");
+                document.getElementById('refreshDataBtn').innerHTML = '<span class="material-symbols-outlined text-sm">cloud_sync</span> Fallo Sincronización';
+            }
+        }
+
+        document.getElementById('refreshDataBtn').addEventListener('click', fetchGoogleSheetData);
+
+
+        // Descomentar esta línea para que se sincronice automáticamente cuando abras la web:
+        fetchGoogleSheetData();
+    </script>
+</body></html>
