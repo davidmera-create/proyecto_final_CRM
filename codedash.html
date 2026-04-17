@@ -360,10 +360,16 @@
                 let tableHtml = "";
 
                 jsonData.forEach((row, idx) => {
+                    let keys = Object.keys(row);
                     let rowVals = Object.values(row);
-                    let nombreStr = rowVals[0] || "";
-                    let orgStr = rowVals[4] || "";
-                    let phoneStr = rowVals[3] || "";
+                    
+                    let nameKey = keys.find(k => k.toLowerCase().includes("nombre") && !k.toLowerCase().includes("org"));
+                    let phoneKey = keys.find(k => k.toLowerCase().includes("tel") || k.toLowerCase().includes("phone") || k.toLowerCase().includes("cel"));
+                    let orgKey = keys.find(k => k.toLowerCase().includes("org") || k.toLowerCase().includes("empresa"));
+                    
+                    let nombreStr = String(nameKey ? row[nameKey] : rowVals[0] || "").trim();
+                    let phoneStr = String(phoneKey ? row[phoneKey] : rowVals[3] || "").trim();
+                    let orgStr = String(orgKey ? row[orgKey] : rowVals[4] || "").trim();
                     
                     // --- Mapeo Roles ---
                     let foundRole = null;
@@ -375,7 +381,7 @@
 
                     // --- Organizaciones ---
                     if (orgStr) {
-                        let cleanOrg = orgStr.trim();
+                        let cleanOrg = orgStr;
                         uniqueOrgs.add(cleanOrg);
                         orgCounts[cleanOrg] = (orgCounts[cleanOrg] || 0) + 1;
                     }
